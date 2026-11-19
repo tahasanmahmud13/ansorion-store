@@ -9,9 +9,14 @@ const crypto = require('node:crypto');
 const { openDatabase } = require('./lib/db');
 const { garmentSVG } = require('./lib/garment');
 
+const os = require('node:os');
 const ROOT = __dirname;
 const PUBLIC = path.join(ROOT, 'public');
-const DATA = process.env.DATA_DIR ? path.resolve(process.env.DATA_DIR) : path.join(ROOT, 'data');
+// Vercel's code folder is read-only, so data goes to its temporary folder there.
+// Note: that folder is wiped whenever Vercel starts a fresh copy of the app.
+const ON_VERCEL = !!process.env.VERCEL;
+const DATA = process.env.DATA_DIR ? path.resolve(process.env.DATA_DIR)
+  : ON_VERCEL ? path.join(os.tmpdir(), 'ansorion-data') : path.join(ROOT, 'data');
 const UPLOADS = path.join(DATA, 'uploads');
 const PORT = Number(process.env.PORT) || 3000;
 
@@ -28,9 +33,13 @@ function writeAdmin(username, password) {
 if (!fs.existsSync(ADMIN_FILE)) {
   const pw = process.env.ADMIN_PASSWORD || crypto.randomBytes(9).toString('base64url');
   writeAdmin('admin', pw);
-  fs.writeFileSync(path.join(DATA, 'ADMIN-LOGIN.txt'),
-    `ANSORION admin panel\nURL: /admin\nUsername: admin\nPassword: ${pw}\n\nChange this password from Admin > Settings, then delete this file.\n`);
-  console.log('Admin account created. Login details saved to data/ADMIN-LOGIN.txt');
+  if (ON_VERCEL) {
+    if (!process.env.ADMIN_PASSWORD) console.warn('ADMIN_PASSWORD is not set in Vercel. Add it under Settings > Environment Variables to use /admin.');
+  } else {
+    fs.writeFileSync(path.join(DATA, 'ADMIN-LOGIN.txt'),
+      `ANSORION admin panel\nURL: /admin\nUsername: admin\nPassword: ${pw}\n\nChange this password from Admin > Settings, then delete this file.\n`);
+    console.log('Admin account created. Login details saved to data/ADMIN-LOGIN.txt');
+  }
 }
 function readAdmin() { return JSON.parse(fs.readFileSync(ADMIN_FILE, 'utf8')); }
 function checkPassword(username, password) {
