@@ -148,10 +148,11 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .pgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 @media (min-width:700px){.pgrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}}
 @media (min-width:1080px){.pgrid{grid-template-columns:repeat(4,minmax(0,1fr))}}
-.prow{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,46%);gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;scrollbar-width:thin}
-.prow>*{scroll-snap-align:start}
-@media (min-width:700px){.prow{grid-auto-columns:minmax(0,31%)}}
-@media (min-width:1080px){.prow{grid-auto-columns:minmax(0,calc(25% - 15px));gap:20px}}
+/* Swipe row: flexbox with fixed card widths (grid auto-columns collapse in iOS Safari). */
+.prow{display:flex;gap:14px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;padding-bottom:8px;scrollbar-width:thin;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.prow>*{flex:0 0 calc((100% - 14px) / 2.15);width:calc((100% - 14px) / 2.15);min-width:0;scroll-snap-align:start}
+@media (min-width:700px){.prow{gap:20px}.prow>*{flex-basis:calc((100% - 40px) / 3.15);width:calc((100% - 40px) / 3.15)}}
+@media (min-width:1080px){.prow>*{flex-basis:calc((100% - 60px) / 4);width:calc((100% - 60px) / 4)}}
 .pcard{position:relative;display:flex;flex-direction:column;min-width:0}
 .pimg{position:relative;display:block;aspect-ratio:4/5;border-radius:var(--r);background:var(--tint);overflow:hidden}
 .pimg img{width:100%;height:100%;object-fit:contain;padding:8%;transition:transform .35s}
