@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ANSORION | Essentials, aligned.</title>
+<meta name="description" content="ANSORION makes modern clothing essentials in Bangladesh: tees, polos, shirts, hoodies, jackets and chinos. Cash on delivery nationwide, wholesale available.">
+<meta name="theme-color" content="#121827">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Manrope:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="stylesheet" href="/assets/style.css?v=2">
+</head>
+<body data-page="home">
+<div id="site-header"></div>
+
+<main>
+  <section class="hero on-night" aria-label="ANSORION Collection 01">
+    <canvas id="heroSky" aria-hidden="true"></canvas>
+    <div class="wrap hero-in">
+      <div>
+        <span class="eyebrow">Collection 01 · Now available</span>
+        <h1>Essentials,<br><em>aligned.</em></h1>
+        <p class="lead">Tees, shirts, hoodies and chinos cut clean and made to last. Named after Orion's belt: three stars in a line, and the standard every piece is held to.</p>
+        <div class="ctas"><a class="btn gold" href="/shop">Shop the collection</a><a class="btn light" href="/wholesale">Wholesale orders</a></div>
+      </div>
+      <div>
+        <a class="hero-card" id="heroCard" href="/shop" aria-label="Featured product"><span class="eyebrow">Featured</span></a>
+        <div class="hero-dots" id="heroDots"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-bottom:0">
+    <div class="wrap">
+      <div class="sec-head"><div><span class="eyebrow">Collections</span><h2>Shop by category</h2></div><a class="link-arrow" href="/shop">View all</a></div>
+      <div class="cats" id="cats">
+        <div class="skeleton" style="aspect-ratio:1"></div><div class="skeleton" style="aspect-ratio:1"></div><div class="skeleton" style="aspect-ratio:1"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="sec-head"><div><span class="eyebrow">Most wanted</span><h2>Popular products</h2></div><a class="link-arrow" href="/shop">Shop all</a></div>
+      <div class="prow" id="popular">
+        <div class="skeleton" style="aspect-ratio:4/5"></div><div class="skeleton" style="aspect-ratio:4/5"></div><div class="skeleton" style="aspect-ratio:4/5"></div><div class="skeleton" style="aspect-ratio:4/5"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section promise on-night">
+    <div class="wrap">
+      <span class="eyebrow">The ANSORION standard</span>
+      <h2>Three stars. One line. No shortcuts.</h2>
+      <div class="promise-grid">
+        <div><b>Cut</b><p>Patterns graded size by size, so a Medium fits like a Medium and the shoulders sit where they should.</p></div>
+        <div><b>Fabric</b><p>Combed cottons, piqué, oxford and brushed fleece chosen for how they feel after the twentieth wash.</p></div>
+        <div><b>Finish</b><p>Even stitching, ribbing that keeps its shape and buttons that stay on. Checked piece by piece before packing.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="sec-head"><div><span class="eyebrow">Just in</span><h2>New arrivals</h2></div><a class="link-arrow" href="/shop?new=1">See all new</a></div>
+      <div class="pgrid" id="newArrivals">
+        <div class="skeleton" style="aspect-ratio:4/5"></div><div class="skeleton" style="aspect-ratio:4/5"></div><div class="skeleton" style="aspect-ratio:4/5"></div><div class="skeleton" style="aspect-ratio:4/5"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head"><div><span class="eyebrow">Info desk</span><h2>Before you order</h2></div><a class="link-arrow" href="/info">Open info desk</a></div>
+      <div class="desk-grid">
+        <a class="desk-tile" href="/info#track"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M3 6h11v10H3zM14 9h4l3 3.5V16h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg><b>Track your order</b><span>Order number and phone is all you need.</span></a>
+        <a class="desk-tile" href="/info#size-guide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M3 15.5L15.5 3 21 8.5 8.5 21z"/><path d="M7 11.5l2 2M10 8.5l2 2M13 5.5l2 2"/></svg><b>Size guide</b><span>Chest, length and waist for every size.</span></a>
+        <a class="desk-tile" href="/info#delivery"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg><b>Delivery &amp; charges</b><span>Inside and outside Dhaka, and how long it takes.</span></a>
+        <a class="desk-tile" href="/info#exchange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13l-3-3M20 16H7l3 3"/></svg><b>Exchange &amp; returns</b><span>Wrong size? Here's how to swap it.</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section ws-band on-night" id="wholesale">
+    <div class="wrap ws-grid">
+      <div>
+        <span class="eyebrow">Wholesale services</span>
+        <h2>Stock ANSORION in your store.</h2>
+        <p class="sub">Bulk pricing for retailers, corporate uniforms and event merchandise. Tell us what you need and our team will call you with a quote.</p>
+        <ul class="ws-list">
+          <li>Tiered prices from 20 pieces</li>
+          <li>Mix sizes and colours in one order</li>
+          <li>Custom logo printing and embroidery on request</li>
+          <li>Delivery anywhere in Bangladesh</li>
+        </ul>
+        <p style="margin-top:22px"><a class="link-arrow" style="border-color:var(--gold-soft);color:var(--gold-soft)" href="/wholesale">See wholesale tiers</a></p>
+      </div>
+      <form class="panel" id="wsForm" novalidate>
+        <h3>Submit your information</h3>
+        <div class="grid-2">
+          <div class="field"><label for="w-name">Full name</label><input class="input" id="w-name" name="full_name" autocomplete="name" required></div>
+          <div class="field"><label for="w-co">Company name <small>(optional)</small></label><input class="input" id="w-co" name="company" autocomplete="organization"></div>
+          <div class="field"><label for="w-phone">Phone number</label><input class="input" id="w-phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="01XXXXXXXXX" required></div>
+          <div class="field"><label for="w-email">Email <small>(optional)</small></label><input class="input" id="w-email" name="email" type="email" autocomplete="email"></div>
+        </div>
+        <div class="field"><label for="w-msg">What do you need?</label><textarea class="input" id="w-msg" name="message" placeholder="Products, quantity, sizes, logo printing…"></textarea></div>
+        <div class="form-msg" hidden></div>
+        <button class="btn" type="submit">Send request</button>
+        <p class="note">After you submit, our team will contact you as soon as possible.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+<script src="/assets/app.js?v=2"></script>
+</body>
+</html>

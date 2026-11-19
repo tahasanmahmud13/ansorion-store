@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ANSORION Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#121827">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="/admin/admin.css?v=2">
+</head>
+<body>
+  <div id="login" class="login" hidden>
+    <form class="login-card" id="loginForm" novalidate>
+      <img class="brand-img" src="/assets/logo.svg" alt="ANSORION" width="160" height="73">
+      <h1>Admin login</h1>
+      <label class="fld"><span>Username</span><input class="in" name="username" id="lu" autocomplete="username" required></label>
+      <label class="fld"><span>Password</span><input class="in" name="password" id="lp" type="password" autocomplete="current-password" required></label>
+      <div class="msg bad" id="loginMsg" hidden></div>
+      <button class="b primary" type="submit">Log in</button>
+      <a class="muted small" href="/">← Back to the store</a>
+    </form>
+  </div>
+
+  <div id="app" class="app" hidden>
+    <aside class="side">
+      <img class="brand-img side-logo" src="/assets/logo-white.svg" alt="ANSORION" width="130" height="60">
+      <nav class="snav" id="snav">
+        <a href="#dashboard" data-v="dashboard">Dashboard</a>
+        <a href="#orders" data-v="orders">Orders <b class="pill" id="navOrders" hidden></b></a>
+        <a href="#wholesale" data-v="wholesale">Wholesale <b class="pill" id="navWs" hidden></b></a>
+        <a href="#messages" data-v="messages">Info desk messages <b class="pill" id="navMsg" hidden></b></a>
+        <a href="#products" data-v="products">Products</a>
+        <a href="#settings" data-v="settings">Settings</a>
+      </nav>
+      <div class="side-foot"><a href="/" target="_blank" rel="noopener">View store ↗</a><button class="linkb" id="logout">Log out</button></div>
+    </aside>
+    <main class="main" id="main"></main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="/admin/admin.js?v=2"></script>
+</body>
+</html>

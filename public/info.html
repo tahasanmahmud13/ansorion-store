@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Info desk | ANSORION</title>
+<meta name="description" content="Track your ANSORION order, check the size guide, delivery charges, exchange policy and payment options, or send us a message.">
+<meta name="theme-color" content="#121827">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Manrope:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="stylesheet" href="/assets/style.css?v=2">
+</head>
+<body data-page="info">
+<div id="site-header"></div>
+<main>
+  <div class="page-head"><div class="wrap"><div class="crumbs"><a href="/">Home</a> / Info desk</div><h1>Info desk</h1><p>Everything you need before and after you order: tracking, sizes, delivery, exchanges and payment. Can't find an answer? Send us a message at the bottom.</p></div></div>
+  <div class="wrap desk-layout">
+    <nav class="desk-nav" aria-label="Info desk sections">
+      <a href="#track">Track order</a><a href="#size-guide">Size guide</a><a href="#delivery">Delivery</a><a href="#exchange">Exchange &amp; returns</a><a href="#payment">Payment</a><a href="#faq">FAQ</a><a href="#contact">Contact us</a>
+    </nav>
+    <div>
+      <section class="desk-sec" id="track">
+        <span class="eyebrow">Orders</span><h2>Track your order</h2>
+        <p>Enter the order number from your confirmation (it starts with ANS-) and the mobile number you ordered with.</p>
+        <form class="track-box" id="trackForm" novalidate>
+          <div class="field"><label for="t-no">Order number</label><input class="input" id="t-no" name="order_no" placeholder="ANS-251119-1234" autocomplete="off" required></div>
+          <div class="field"><label for="t-phone">Mobile number</label><input class="input" id="t-phone" name="phone" inputmode="tel" placeholder="01XXXXXXXXX" required></div>
+          <button class="btn" type="submit">Track</button>
+        </form>
+        <div class="track-result" id="trackOut" hidden></div>
+      </section>
+
+      <section class="desk-sec" id="size-guide">
+        <span class="eyebrow">Fit</span><h2>Size guide</h2>
+        <p>Measurements are of the garment laid flat, in inches. Compare with a piece you already own and like the fit of. Between sizes? Size up for a relaxed fit.</p>
+        <b>Tees, polos, shirts &amp; hoodies</b>
+        <div class="tbl-wrap"><table class="tbl">
+          <thead><tr><th>Size</th><th>Chest</th><th>Length</th><th>Sleeve (tee)</th><th>Usually fits height</th></tr></thead>
+          <tbody>
+            <tr><td><b>S</b></td><td>38"</td><td>27"</td><td>7.5"</td><td>5'3"–5'6"</td></tr>
+            <tr><td><b>M</b></td><td>40"</td><td>28"</td><td>8"</td><td>5'5"–5'8"</td></tr>
+            <tr><td><b>L</b></td><td>42"</td><td>29"</td><td>8.5"</td><td>5'7"–5'10"</td></tr>
+            <tr><td><b>XL</b></td><td>44"</td><td>30"</td><td>9"</td><td>5'9"–6'0"</td></tr>
+            <tr><td><b>XXL</b></td><td>46"</td><td>31"</td><td>9.5"</td><td>5'11"+</td></tr>
+          </tbody></table></div>
+        <b>Trousers</b>
+        <div class="tbl-wrap"><table class="tbl">
+          <thead><tr><th>Size</th><th>Waist</th><th>Hip</th><th>Inseam</th><th>Thigh</th></tr></thead>
+          <tbody>
+            <tr><td><b>30</b></td><td>30"</td><td>39"</td><td>30"</td><td>23"</td></tr>
+            <tr><td><b>32</b></td><td>32"</td><td>41"</td><td>30.5"</td><td>24"</td></tr>
+            <tr><td><b>34</b></td><td>34"</td><td>43"</td><td>31"</td><td>25"</td></tr>
+            <tr><td><b>36</b></td><td>36"</td><td>45"</td><td>31.5"</td><td>26"</td></tr>
+            <tr><td><b>38</b></td><td>38"</td><td>47"</td><td>32"</td><td>27"</td></tr>
+          </tbody></table></div>
+      </section>
+
+      <section class="desk-sec" id="delivery">
+        <span class="eyebrow">Shipping</span><h2>Delivery</h2>
+        <div class="facts">
+          <div class="fact"><b>Inside Dhaka · <span data-set="inside">৳70</span></b><span>Usually delivered in 1–2 days.</span></div>
+          <div class="fact"><b>Outside Dhaka · <span data-set="outside">৳130</span></b><span>Usually delivered in 2–4 days by courier.</span></div>
+          <div class="fact"><b>Order confirmation</b><span>We call every customer to confirm the order before it ships.</span></div>
+          <div class="fact"><b>Check before you pay</b><span>You can open the parcel and check the item in front of the rider.</span></div>
+        </div>
+      </section>
+
+      <section class="desk-sec" id="exchange">
+        <span class="eyebrow">After you buy</span><h2>Exchange &amp; returns</h2>
+        <p>If the size doesn't fit, you can exchange it within 3 days of delivery. The item must be unworn, unwashed and have its tags.</p>
+        <div class="facts">
+          <div class="fact"><b>Size exchange</b><span>Message us within 3 days. You pay the delivery charge for the swap.</span></div>
+          <div class="fact"><b>Wrong or faulty item</b><span>We replace it and cover delivery. Send a photo within 48 hours of receiving it.</span></div>
+          <div class="fact"><b>Refunds</b><span>If a replacement isn't available, we refund to your bKash or Nagad within 7 working days.</span></div>
+          <div class="fact"><b>Not eligible</b><span>Items bought on clearance sale, and items worn or washed.</span></div>
+        </div>
+      </section>
+
+      <section class="desk-sec" id="payment">
+        <span class="eyebrow">Paying</span><h2>Payment options</h2>
+        <div class="facts">
+          <div class="fact"><b>Cash on delivery</b><span>Pay the rider when your parcel arrives. Available everywhere in Bangladesh.</span></div>
+          <div class="fact"><b>bKash / Nagad</b><span>Send money at checkout and enter the transaction ID. We verify it before shipping.</span></div>
+        </div>
+      </section>
+
+      <section class="desk-sec" id="faq">
+        <span class="eyebrow">Questions</span><h2>Frequently asked</h2>
+        <div class="faq">
+          <details><summary>How do I know my order went through?</summary><p>You'll see your order number on screen right after checkout, and we'll call you to confirm. You can track it any time on this page.</p></details>
+          <details><summary>Can I change or cancel my order?</summary><p>Yes, until it ships. Send us a message with your order number or tell us when we call to confirm.</p></details>
+          <details><summary>Do the colours look the same in real life?</summary><p>We match colours as closely as we can, but screens vary. If a colour is very different from the photo, you can exchange it.</p></details>
+          <details><summary>How should I wash ANSORION clothes?</summary><p>Wash inside out in cold water with similar colours, don't bleach, and dry in shade. Iron on medium heat, not directly on prints.</p></details>
+          <details><summary>Do you have a physical store?</summary><p>We're online for now. Follow our Facebook page for pop-up events and new drops.</p></details>
+        </div>
+      </section>
+
+      <section class="desk-sec" id="contact">
+        <span class="eyebrow">Talk to us</span><h2>Contact us</h2>
+        <p id="contactLines">Send us a message and our team will reply by phone or email.</p>
+        <form class="panel" id="contactForm" novalidate style="border:1px solid var(--line);padding:22px">
+          <div class="grid-2">
+            <div class="field"><label for="m-name">Your name</label><input class="input" id="m-name" name="name" autocomplete="name" required></div>
+            <div class="field"><label for="m-topic">Topic</label><select class="input" id="m-topic" name="topic"><option>Order question</option><option>Size help</option><option>Exchange or return</option><option>Wholesale</option><option>Other</option></select></div>
+            <div class="field"><label for="m-phone">Mobile number</label><input class="input" id="m-phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="01XXXXXXXXX"></div>
+            <div class="field"><label for="m-email">Email <small>(optional)</small></label><input class="input" id="m-email" name="email" type="email" autocomplete="email"></div>
+          </div>
+          <div class="field"><label for="m-msg">Message</label><textarea class="input" id="m-msg" name="message" placeholder="Include your order number if it's about an order."></textarea></div>
+          <div class="form-msg" hidden></div>
+          <button class="btn" type="submit">Send message</button>
+        </form>
+      </section>
+    </div>
+  </div>
+</main>
+<div id="site-footer"></div>
+<script src="/assets/app.js?v=2"></script>
+</body>
+</html>

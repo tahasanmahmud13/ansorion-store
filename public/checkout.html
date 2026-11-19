@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Checkout | ANSORION</title>
+<meta name="theme-color" content="#121827">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Manrope:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="stylesheet" href="/assets/style.css?v=2">
+</head>
+<body data-page="checkout">
+<div id="site-header"></div>
+<main>
+  <div class="page-head"><div class="wrap"><div class="crumbs"><a href="/">Home</a> / <a href="/cart">Cart</a> / Checkout</div><h1>Checkout</h1></div></div>
+  <div class="wrap cart-grid" id="coGrid">
+    <form class="co-form" id="coForm" novalidate>
+      <div class="form-msg bad" id="coMsg" hidden></div>
+      <div class="co-block">
+        <h2><small>01</small>Your details</h2>
+        <div class="grid-2">
+          <div class="field"><label for="c-name">Full name</label><input class="input" id="c-name" name="name" autocomplete="name" required></div>
+          <div class="field"><label for="c-phone">Mobile number</label><input class="input" id="c-phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="01XXXXXXXXX" required></div>
+        </div>
+        <div class="field"><label for="c-email">Email <small>(optional, for an order copy)</small></label><input class="input" id="c-email" name="email" type="email" autocomplete="email"></div>
+      </div>
+      <div class="co-block">
+        <h2><small>02</small>Delivery</h2>
+        <div class="field"><label for="c-address">Full address</label><textarea class="input" id="c-address" name="address" autocomplete="street-address" placeholder="House, road, area" style="min-height:80px" required></textarea></div>
+        <div class="field"><label for="c-city">City / District</label><input class="input" id="c-city" name="city" autocomplete="address-level2" placeholder="Dhaka" required></div>
+        <div class="field" data-err="zone"><label>Delivery area</label>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="zone" value="inside"><div><b>Inside Dhaka</b><span>Usually 1–2 days</span></div><em id="zIn"></em></label>
+            <label class="choice"><input type="radio" name="zone" value="outside"><div><b>Outside Dhaka</b><span>Usually 2–4 days</span></div><em id="zOut"></em></label>
+          </div>
+        </div>
+        <div class="field"><label for="c-note">Order note <small>(optional)</small></label><input class="input" id="c-note" name="note" placeholder="Landmark, preferred delivery time…"></div>
+      </div>
+      <div class="co-block">
+        <h2><small>03</small>Payment</h2>
+        <div class="field" data-err="payment"><div class="choices">
+          <label class="choice"><input type="radio" name="method" value="cod" checked><div><b>Cash on delivery</b><span>Pay the rider when your parcel arrives</span></div></label>
+          <label class="choice"><input type="radio" name="method" value="bkash"><div><b>bKash</b><span>Send money, then add the transaction ID</span></div></label>
+          <label class="choice"><input type="radio" name="method" value="nagad"><div><b>Nagad</b><span>Send money, then add the transaction ID</span></div></label>
+        </div></div>
+        <div class="pay-help" id="payHelp" hidden>
+          <p id="payText"></p>
+          <div class="field"><label for="c-ref">Transaction ID</label><input class="input" id="c-ref" name="payment_ref" autocomplete="off" placeholder="e.g. 9BG4K7XY2P"></div>
+        </div>
+      </div>
+    </form>
+    <aside class="summary" id="coSummary" aria-label="Order summary"><div class="skeleton" style="height:200px"></div></aside>
+  </div>
+</main>
+<div id="site-footer"></div>
+<script src="/assets/app.js?v=2"></script>
+</body>
+</html>

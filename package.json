@@ -1,0 +1,11 @@
+{
+  "name": "ansorion-store",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ANSORION clothing store: storefront, order system, wholesale leads, info desk and admin panel.",
+  "main": "server.js",
+  "engines": { "node": ">=22.5.0" },
+  "scripts": {
+    "start": "node --no-warnings server.js"
+  }
+}
