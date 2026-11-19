@@ -20,13 +20,12 @@ On the first run the server creates the admin account and writes the login to `d
 
 | Page | What it does |
 | --- | --- |
-| `/` Home | Hero, categories, popular products, brand promise, new arrivals, info desk links, wholesale form |
+| `/` Home | Hero, categories, popular products, brand promise, new arrivals, info desk links |
 | `/shop` | All products with category filters, search and sorting |
 | `/product?slug=…` | Size picker, quantity, add to cart / buy now, stock level, related products |
 | `/cart`, `/checkout` | Cart in the browser; checkout with delivery area (inside / outside Dhaka) and Cash on delivery, bKash or Nagad (with transaction ID) |
 | `/order-success` | Order number and summary |
 | `/wishlist` | Saved products (heart icon) |
-| `/wholesale` | Wholesale tiers, process, quote request form |
 | `/info` | Info desk: order tracking, size guide, delivery, exchange & returns, payment, FAQ, contact form |
 | `/admin` | Dashboard, **Orders** list with full customer details and status updates, wholesale leads, info desk messages, products (with photo upload), settings |
 

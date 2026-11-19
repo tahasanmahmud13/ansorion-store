@@ -84,7 +84,7 @@ function renderLayout() {
       <a class="logo" href="/" aria-label="ANSORION home">${LOGO()}</a>
       <nav class="main-nav" aria-label="Main">
         <a href="/"${cur('home')}>Home</a><a href="/shop"${cur('shop')}>Shop</a><a href="/shop?new=1">New arrivals</a>
-        <a href="/wholesale"${cur('wholesale')}>Wholesale</a><a href="/info"${cur('info')}>Info desk</a>
+        <a href="/info"${cur('info')}>Info desk</a>
       </nav>
       <div class="hdr-actions">
         <a class="icon-btn desk" href="/shop?focus=search" aria-label="Search">${I.search}</a>
@@ -94,7 +94,7 @@ function renderLayout() {
     </div></header>
     <aside class="drawer" id="drawer" aria-label="Menu">
       <div class="drawer-head"><a class="logo" href="/">${LOGO()}</a><button class="icon-btn" id="drawerClose" aria-label="Close menu">${I.close}</button></div>
-      <nav><a href="/">Home</a><a href="/shop">Shop all</a><a href="/shop?new=1">New arrivals</a><a href="/wholesale">Wholesale</a><a href="/info">Info desk</a><a href="/info#track">Track your order</a><a href="/wishlist">Wishlist</a></nav>
+      <nav><a href="/">Home</a><a href="/shop">Shop all</a><a href="/shop?new=1">New arrivals</a><a href="/info">Info desk</a><a href="/info#track">Track your order</a><a href="/wishlist">Wishlist</a></nav>
       <div class="drawer-foot">Essentials, aligned.</div>
     </aside><div class="drawer-bg" id="drawerBg"></div>`;
   const ftr = $('#site-footer');
@@ -107,8 +107,7 @@ function renderLayout() {
           <p id="ftrContact"></p>
         </div>
         <div><h4>Shop</h4><ul><li><a href="/shop">All products</a></li><li><a href="/shop?new=1">New arrivals</a></li><li><a href="/shop?category=T-Shirts">T-Shirts</a></li><li><a href="/shop?category=Shirts">Shirts</a></li><li><a href="/shop?category=Hoodies">Hoodies</a></li></ul></div>
-        <div><h4>Info desk</h4><ul><li><a href="/info#track">Track order</a></li><li><a href="/info#size-guide">Size guide</a></li><li><a href="/info#delivery">Delivery</a></li><li><a href="/info#exchange">Exchange &amp; returns</a></li><li><a href="/info#contact">Contact us</a></li></ul></div>
-        <div><h4>Business</h4><ul><li><a href="/wholesale">Wholesale</a></li><li><a href="/wholesale#form">Request a quote</a></li><li id="ftrFb" hidden><a target="_blank" rel="noopener" href="#">Facebook</a></li></ul></div>
+        <div><h4>Info desk</h4><ul><li><a href="/info#track">Track order</a></li><li><a href="/info#size-guide">Size guide</a></li><li><a href="/info#delivery">Delivery</a></li><li><a href="/info#exchange">Exchange &amp; returns</a></li><li><a href="/info#contact">Contact us</a></li><li id="ftrFb" hidden><a target="_blank" rel="noopener" href="#">Facebook</a></li></ul></div>
       </div>
       <div class="ftr-bottom"><span>© ${new Date().getFullYear()} ANSORION. All rights reserved.</span><span class="belt"><i></i><i></i><i></i></span></div>
     </div></footer>
@@ -282,8 +281,6 @@ async function initHome() {
   dots.addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) show($$('button', dots).indexOf(b)); });
   show(0);
   if (!matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(() => show((i + 1) % spot.length), 4500);
-
-  bindSimpleForm($('#wsForm'), '/api/wholesale', 'Thank you. Our wholesale team will call you within one working day.');
 }
 
 async function initShop() {
@@ -512,11 +509,10 @@ function initInfo() {
   bindSimpleForm($('#contactForm'), '/api/messages', 'Message sent. We usually reply within a day.');
 }
 
-function initWholesale() { bindSimpleForm($('#wsForm'), '/api/wholesale', 'Thank you. Our wholesale team will call you within one working day.'); }
 
 /* ---------- boot ---------- */
 renderLayout();
-const pages = { home: initHome, shop: initShop, product: initProduct, cart: initCart, checkout: initCheckout, success: initSuccess, wishlist: initWishlist, info: initInfo, wholesale: initWholesale };
+const pages = { home: initHome, shop: initShop, product: initProduct, cart: initCart, checkout: initCheckout, success: initSuccess, wishlist: initWishlist, info: initInfo };
 const run = pages[document.body.dataset.page];
 if (run) Promise.resolve(run()).catch((e) => { console.error(e); toast('Could not load this page. Check your connection and refresh.'); });
 })();

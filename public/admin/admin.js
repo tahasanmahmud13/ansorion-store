@@ -38,7 +38,7 @@ let pollT, lastTotal = null, baseTitle = document.title;
 async function poll() {
   try {
     const s = await api('/api/admin/stats');
-    badge('#navOrders', s.orders_pending); badge('#navWs', s.wholesale_new); badge('#navMsg', s.messages_unread);
+    badge('#navOrders', s.orders_pending); badge('#navMsg', s.messages_unread);
     if (lastTotal !== null && s.orders_total > lastTotal) {
       const n = s.orders_total - lastTotal;
       toast(`${n} new order${n > 1 ? 's' : ''} received`);
@@ -78,7 +78,7 @@ views.dashboard = async () => {
       <a class="card stat ${s.orders_pending ? 'attn' : ''}" href="#orders"><span>Pending orders</span><b>${s.orders_pending}</b><small>Need a confirmation call</small></a>
       <a class="card stat" href="#orders"><span>Orders today</span><b>${s.orders_today}</b><small>${s.orders_total} orders all time</small></a>
       <div class="card stat"><span>Sales value</span><b>${tk(s.revenue)}</b><small>${tk(s.revenue_delivered)} delivered · excludes cancelled</small></div>
-      <a class="card stat ${s.wholesale_new + s.messages_unread ? 'attn' : ''}" href="#wholesale"><span>Leads waiting</span><b>${s.wholesale_new + s.messages_unread}</b><small>${s.wholesale_new} wholesale · ${s.messages_unread} messages</small></a>
+      <a class="card stat ${s.messages_unread ? 'attn' : ''}" href="#messages"><span>Messages waiting</span><b>${s.messages_unread}</b><small>From the info desk contact form</small></a>
     </div>
     <div class="dash">
       <div class="card"><div class="card-h"><h2>Latest orders</h2><a class="b sm" href="#orders">See all</a></div>

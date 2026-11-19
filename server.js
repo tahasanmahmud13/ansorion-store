@@ -269,7 +269,11 @@ route('GET', /^\/api\/orders\/track$/, (req, m, url) => {
     delivery_charge: o.delivery_charge, payment_method: o.payment_method, customer_name: o.customer_name, city: o.city, items };
 });
 
+// Wholesale is switched off on the website for now (the form and page were removed).
+// The route stays defined but disabled, so it can be turned back on later.
+const WHOLESALE_ENABLED = false;
 route('POST', /^\/api\/wholesale$/, async (req) => {
+  if (!WHOLESALE_ENABLED) throw new HttpError(404, 'Not found.');
   const b = await readBody(req);
   const full_name = str(b.full_name, 80), phone = normalizePhone(b.phone), email = str(b.email, 120);
   const errors = {};

@@ -209,7 +209,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 /* footer */
 .ftr{background:#0B0F19;color:var(--on-night-muted);padding-block:56px 32px;font-size:14px}
 .ftr-grid{display:grid;gap:30px}
-@media (min-width:800px){.ftr-grid{grid-template-columns:1.4fr 1fr 1fr 1fr}}
+@media (min-width:800px){.ftr-grid{grid-template-columns:1.6fr 1fr 1fr}}
 .ftr .logo{justify-self:start;color:var(--on-night)}
 .ftr h4{color:var(--on-night);font-size:13px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px}
 .ftr ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
