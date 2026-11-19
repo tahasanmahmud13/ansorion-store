@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My account | ANSORION</title>
+<meta name="description" content="Log in or create your ANSORION account to see your orders and save your delivery details.">
+<meta name="theme-color" content="#121827">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Manrope:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="stylesheet" href="/assets/style.css?v=6">
+</head>
+<body data-page="account">
+<div id="site-header"></div>
+<main>
+  <div class="page-head"><div class="wrap"><div class="crumbs"><a href="/">Home</a> / My account</div><h1 id="accTitle">My account</h1><p id="accLead">Log in to see your orders and check out faster.</p></div></div>
+  <div class="wrap acc-wrap">
+
+    <!-- logged out -->
+    <section class="auth" id="authBox" hidden>
+      <div class="auth-tabs" role="tablist">
+        <button type="button" role="tab" id="tabLogin" aria-selected="true" aria-controls="loginForm">Log in</button>
+        <button type="button" role="tab" id="tabSignup" aria-selected="false" aria-controls="signupForm">Create account</button>
+      </div>
+      <form class="auth-form" id="loginForm" novalidate>
+        <div class="field"><label for="l-id">Mobile number or email</label><input class="input" id="l-id" name="login" autocomplete="username" inputmode="email" placeholder="01XXXXXXXXX" required></div>
+        <div class="field"><label for="l-pw">Password</label><input class="input" id="l-pw" name="password" type="password" autocomplete="current-password" required></div>
+        <div class="form-msg" hidden></div>
+        <button class="btn block" type="submit">Log in</button>
+        <p class="auth-alt">New to ANSORION? <button type="button" class="linkbtn" data-go="signup">Create an account</button></p>
+      </form>
+      <form class="auth-form" id="signupForm" novalidate hidden>
+        <div class="field"><label for="s-name">Full name</label><input class="input" id="s-name" name="name" autocomplete="name" required></div>
+        <div class="field"><label for="s-phone">Mobile number</label><input class="input" id="s-phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="01XXXXXXXXX" required></div>
+        <div class="field"><label for="s-email">Email <small>(optional)</small></label><input class="input" id="s-email" name="email" type="email" autocomplete="email"></div>
+        <div class="field"><label for="s-pw">Password <small>(at least 6 characters)</small></label><input class="input" id="s-pw" name="password" type="password" autocomplete="new-password" required></div>
+        <div class="form-msg" hidden></div>
+        <button class="btn block" type="submit">Create account</button>
+        <p class="auth-alt">Already have an account? <button type="button" class="linkbtn" data-go="login">Log in</button></p>
+      </form>
+      <ul class="auth-perks">
+        <li>See every order you place and where it is</li>
+        <li>Your name, phone and address filled in at checkout</li>
+        <li>Placed an order without an account? <a href="/info#track">Track it here</a></li>
+      </ul>
+    </section>
+
+    <!-- logged in -->
+    <section class="acc" id="accBox" hidden>
+      <aside class="acc-side">
+        <div class="acc-card"><span class="acc-avatar" id="accAvatar"></span><div><b id="accName"></b><span id="accPhone"></span></div></div>
+        <nav class="acc-nav" aria-label="Account">
+          <button type="button" data-tab="orders" aria-current="true">My orders</button>
+          <button type="button" data-tab="profile">Profile &amp; address</button>
+          <button type="button" data-tab="password">Change password</button>
+          <button type="button" id="logoutBtn">Log out</button>
+        </nav>
+      </aside>
+      <div class="acc-main">
+        <div data-pane="orders"><h2>My orders</h2><div id="myOrders" class="my-orders"><div class="skeleton" style="height:140px"></div></div></div>
+        <form data-pane="profile" id="profileForm" class="acc-form" novalidate hidden>
+          <h2>Profile &amp; address</h2>
+          <div class="grid-2">
+            <div class="field"><label for="p-name">Full name</label><input class="input" id="p-name" name="name" autocomplete="name"></div>
+            <div class="field"><label for="p-phone">Mobile number <small>(used to log in)</small></label><input class="input" id="p-phone" disabled></div>
+            <div class="field"><label for="p-email">Email <small>(optional)</small></label><input class="input" id="p-email" name="email" type="email" autocomplete="email"></div>
+            <div class="field"><label for="p-city">City / District</label><input class="input" id="p-city" name="city" autocomplete="address-level2"></div>
+          </div>
+          <div class="field"><label for="p-address">Delivery address</label><textarea class="input" id="p-address" name="address" autocomplete="street-address" placeholder="House, road, area" style="min-height:80px"></textarea></div>
+          <div class="form-msg" hidden></div>
+          <button class="btn" type="submit">Save changes</button>
+        </form>
+        <form data-pane="password" id="pwForm" class="acc-form" novalidate hidden>
+          <h2>Change password</h2>
+          <div class="field"><label for="w-cur">Current password</label><input class="input" id="w-cur" name="current" type="password" autocomplete="current-password"></div>
+          <div class="field"><label for="w-new">New password <small>(at least 6 characters)</small></label><input class="input" id="w-new" name="next" type="password" autocomplete="new-password"></div>
+          <div class="form-msg" hidden></div>
+          <button class="btn" type="submit">Update password</button>
+        </form>
+      </div>
+    </section>
+
+  </div>
+</main>
+<div id="site-footer"></div>
+<script src="/assets/app.js?v=6"></script>
+</body>
+</html>

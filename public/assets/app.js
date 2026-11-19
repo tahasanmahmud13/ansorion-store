@@ -32,6 +32,7 @@ const I = {
   home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 11l8-6.5 8 6.5V20h-5.5v-5h-5v5H4z"/></svg>',
   shop: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M8.5 4L4 6.5l1.8 4 2.2-1V20h8V9.5l2.2 1 1.8-4L15.5 4c-.6 1.6-1.9 2.5-3.5 2.5S9.1 5.6 8.5 4z"/></svg>',
   info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 7.8v.2"/></svg>',
+  user: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c.9-3.6 3.9-5.6 7.5-5.6s6.6 2 7.5 5.6"/></svg>',
   truck: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M3 6h11v10H3zM14 9h4l3 3.5V16h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg>',
   ruler: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M3 15.5L15.5 3 21 8.5 8.5 21z"/><path d="M7 11.5l2 2M10 8.5l2 2M13 5.5l2 2"/></svg>',
   swap: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13l-3-3M20 16H7l3 3"/></svg>',
@@ -89,12 +90,13 @@ function renderLayout() {
       <div class="hdr-actions">
         <a class="icon-btn desk" href="/shop?focus=search" aria-label="Search">${I.search}</a>
         <a class="icon-btn desk" href="/wishlist" aria-label="Wishlist">${I.heart}<span class="count" data-count="wish">0</span></a>
+        <a class="icon-btn desk" href="/account" aria-label="My account"${cur('account')}>${I.user}</a>
         <a class="icon-btn" href="/cart" aria-label="Cart">${I.bag}<span class="count" data-count="cart">0</span></a>
       </div>
     </div></header>
     <aside class="drawer" id="drawer" aria-label="Menu">
       <div class="drawer-head"><a class="logo" href="/">${LOGO()}</a><button class="icon-btn" id="drawerClose" aria-label="Close menu">${I.close}</button></div>
-      <nav><a href="/">Home</a><a href="/shop">Shop all</a><a href="/shop?new=1">New arrivals</a><a href="/info">Info desk</a><a href="/info#track">Track your order</a><a href="/wishlist">Wishlist</a></nav>
+      <nav><a href="/">Home</a><a href="/shop">Shop all</a><a href="/shop?new=1">New arrivals</a><a href="/info">Info desk</a><a href="/account">My account</a><a href="/info#track">Track your order</a><a href="/wishlist">Wishlist</a></nav>
       <div class="drawer-foot">Essentials, aligned.</div>
     </aside><div class="drawer-bg" id="drawerBg"></div>`;
   const ftr = $('#site-footer');
@@ -107,15 +109,15 @@ function renderLayout() {
           <p id="ftrContact"></p>
         </div>
         <div><h4>Shop</h4><ul><li><a href="/shop">All products</a></li><li><a href="/shop?new=1">New arrivals</a></li><li><a href="/shop?category=T-Shirts">T-Shirts</a></li><li><a href="/shop?category=Shirts">Shirts</a></li><li><a href="/shop?category=Hoodies">Hoodies</a></li></ul></div>
-        <div><h4>Info desk</h4><ul><li><a href="/info#track">Track order</a></li><li><a href="/info#size-guide">Size guide</a></li><li><a href="/info#delivery">Delivery</a></li><li><a href="/info#exchange">Exchange &amp; returns</a></li><li><a href="/info#contact">Contact us</a></li><li id="ftrFb" hidden><a target="_blank" rel="noopener" href="#">Facebook</a></li></ul></div>
+        <div><h4>Info desk</h4><ul><li><a href="/account">My account</a></li><li><a href="/info#track">Track order</a></li><li><a href="/info#size-guide">Size guide</a></li><li><a href="/info#delivery">Delivery</a></li><li><a href="/info#exchange">Exchange &amp; returns</a></li><li><a href="/info#contact">Contact us</a></li><li id="ftrFb" hidden><a target="_blank" rel="noopener" href="#">Facebook</a></li></ul></div>
       </div>
       <div class="ftr-bottom"><span>© ${new Date().getFullYear()} ANSORION. All rights reserved.</span><span class="belt"><i></i><i></i><i></i></span></div>
     </div></footer>
     <nav class="bnav" aria-label="Quick links">
       <a href="/"${cur('home')}>${I.home}Home</a>
       <a href="/shop"${cur('shop')}>${I.shop}Shop</a>
-      <a href="/wishlist"${cur('wishlist')}>${I.heart}Wishlist<span class="count" data-count="wish">0</span></a>
       <a href="/cart"${cur('cart') || cur('checkout')}>${I.bag}Cart<span class="count" data-count="cart">0</span></a>
+      <a href="/account"${cur('account')}>${I.user}Account</a>
       <a href="/info"${cur('info')}>${I.info}Info</a>
     </nav>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>`;
@@ -438,6 +440,17 @@ async function initCheckout() {
   }
   form.addEventListener('change', (e) => { if (e.target.name === 'zone') summary(); if (e.target.name === 'method') payHelp(); });
   summary(); payHelp();
+  // Logged-in customers get their details filled in; others get a nudge to log in.
+  api('/api/account/me').then((r) => {
+    if (r.loggedIn) {
+      const c = r.customer;
+      for (const k of ['name', 'phone', 'email', 'address', 'city']) if (form[k] && !form[k].value && c[k]) form[k].value = c[k];
+      if (/dhaka/i.test(c.city || '') && !form.zone.value) { form.zone.value = 'inside'; summary(); }
+      form.insertAdjacentHTML('afterbegin', `<p class="co-acc">Ordering as <b>${esc(c.name)}</b>. This order will be saved to <a href="/account">your account</a>.</p>`);
+    } else {
+      form.insertAdjacentHTML('afterbegin', `<p class="co-acc">Have an account? <a href="/account?next=/checkout">Log in</a> to fill in your details and keep track of this order.</p>`);
+    }
+  }).catch(() => {});
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = $('#placeBtn'); btn.disabled = true; btn.textContent = 'Placing your order…';
@@ -510,9 +523,76 @@ function initInfo() {
 }
 
 
+/* ---------- customer account ---------- */
+const fmtDate = (s) => new Date(String(s).replace(' ', 'T') + 'Z').toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' });
+function bindAccountForm(form, url, method, onOk) {
+  const msg = $('.form-msg', form);
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = $('button[type="submit"]', form); btn.disabled = true; msg.hidden = true;
+    try {
+      await api(url, { method, body: JSON.stringify(Object.fromEntries(new FormData(form))) });
+      showErrors(form, {});
+      await onOk(msg);
+    } catch (err) {
+      showErrors(form, err.errors); msg.className = 'form-msg bad'; msg.textContent = err.message; msg.hidden = false;
+    } finally { btn.disabled = false; }
+  });
+}
+function orderCard(o) {
+  const steps = ['Pending', 'Confirmed', 'Shipped', 'Delivered'];
+  const at = steps.indexOf(o.status);
+  return `<article class="my-order">
+    <div class="my-order-head"><div><span class="order-no">${esc(o.order_no)}</span><small>Placed ${fmtDate(o.created_at)} · ${esc(o.payment_method)}</small></div><span class="status-pill st-${esc(o.status)}">${esc(o.status)}</span></div>
+    ${o.status === 'Cancelled' ? '<p style="color:var(--bad);font-size:14px">This order was cancelled. Contact us if you think this is a mistake.</p>'
+      : `<div class="steps-track">${steps.map((x, n) => `<div class="${n <= at ? 'done' : ''}">${x}</div>`).join('')}</div>`}
+    <div class="sum-items">${o.items.map((it) => `<div class="sum-item"><div class="ci"><img class="${imgCls(it.image)}" src="${esc(it.image)}" alt=""></div><div><b style="font-weight:700">${esc(it.name)}</b><div style="color:var(--muted)">Size ${esc(it.size)} × ${it.qty}</div></div><b>${tk(it.line_total)}</b></div>`).join('')}</div>
+    <div class="srow"><span>Delivery to ${esc(o.city)}</span><b>${o.delivery_charge ? tk(o.delivery_charge) : 'Free'}</b></div>
+    <div class="srow total"><span>Total</span><b>${tk(o.total)}</b></div>
+  </article>`;
+}
+async function initAccount() {
+  const me = await api('/api/account/me');
+  const next = qs.get('next');
+  const goNext = () => { location.href = next && /^\/[a-z0-9/?=&#-]*$/i.test(next) ? next : '/account'; };
+  if (!me.loggedIn) {
+    $('#authBox').hidden = false;
+    const tabs = { login: [$('#tabLogin'), $('#loginForm')], signup: [$('#tabSignup'), $('#signupForm')] };
+    const show = (k) => { for (const [n, [t, f]] of Object.entries(tabs)) { t.setAttribute('aria-selected', n === k); f.hidden = n !== k; } $('#accTitle').textContent = k === 'login' ? 'Log in' : 'Create account'; };
+    $('#tabLogin').addEventListener('click', () => show('login'));
+    $('#tabSignup').addEventListener('click', () => show('signup'));
+    $$('[data-go]').forEach((b) => b.addEventListener('click', () => show(b.dataset.go)));
+    show(qs.get('tab') === 'signup' ? 'signup' : 'login');
+    $('#accLead').textContent = 'See your orders, track deliveries and check out faster.';
+    bindAccountForm($('#loginForm'), '/api/account/login', 'POST', goNext);
+    bindAccountForm($('#signupForm'), '/api/account/signup', 'POST', goNext);
+    return;
+  }
+  const c = me.customer;
+  $('#accBox').hidden = false;
+  $('#accTitle').textContent = `Hi, ${c.name.split(' ')[0]}`;
+  $('#accLead').textContent = 'Your orders, delivery details and password, all in one place.';
+  $('#accAvatar').textContent = c.name.trim().charAt(0).toUpperCase();
+  $('#accName').textContent = c.name; $('#accPhone').textContent = c.phone;
+  const pf = $('#profileForm');
+  pf.name.value = c.name; pf.email.value = c.email || ''; pf.city.value = c.city || ''; pf.address.value = c.address || ''; $('#p-phone').value = c.phone;
+  const tab = (k) => { $$('[data-tab]').forEach((b) => b.setAttribute('aria-current', b.dataset.tab === k)); $$('[data-pane]').forEach((p) => (p.hidden = p.dataset.pane !== k)); };
+  $$('[data-tab]').forEach((b) => b.addEventListener('click', () => tab(b.dataset.tab)));
+  $('#logoutBtn').addEventListener('click', async () => { await api('/api/account/logout', { method: 'POST' }).catch(() => {}); location.href = '/account'; });
+  bindAccountForm(pf, '/api/account/profile', 'PUT', (msg) => {
+    $('#accName').textContent = pf.name.value; msg.className = 'form-msg ok'; msg.textContent = 'Saved. We\'ll use these details at checkout.'; msg.hidden = false;
+  });
+  bindAccountForm($('#pwForm'), '/api/account/password', 'POST', (msg) => {
+    $('#pwForm').reset(); msg.className = 'form-msg ok'; msg.textContent = 'Password updated.'; msg.hidden = false;
+  });
+  const orders = await api('/api/account/orders');
+  $('#myOrders').innerHTML = orders.length ? orders.map(orderCard).join('')
+    : `<div class="empty"><b>No orders yet.</b><span>Orders you place while logged in will show up here. For an order placed without logging in, use <a href="/info#track">Track order</a>.</span><a class="btn" href="/shop">Start shopping</a></div>`;
+}
+
 /* ---------- boot ---------- */
 renderLayout();
-const pages = { home: initHome, shop: initShop, product: initProduct, cart: initCart, checkout: initCheckout, success: initSuccess, wishlist: initWishlist, info: initInfo };
+const pages = { home: initHome, shop: initShop, product: initProduct, cart: initCart, checkout: initCheckout, success: initSuccess, wishlist: initWishlist, info: initInfo, account: initAccount };
 const run = pages[document.body.dataset.page];
 if (run) Promise.resolve(run()).catch((e) => { console.error(e); toast('Could not load this page. Check your connection and refresh.'); });
 })();
