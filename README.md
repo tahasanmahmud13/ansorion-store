@@ -47,6 +47,10 @@ Mobile has a bottom bar (Home, Shop, Wishlist, Cart, Info) like the reference si
 - **Settings:** add delivery charges, phone, email, WhatsApp, bKash/Nagad numbers and your Facebook link in Admin → Settings.
 - **Hosting:** any host that runs Node.js 22.5+ with a persistent disk works (a VPS, Railway, Render with a disk, etc.). The database and uploaded photos live in `data/`; back that folder up. Serve it over HTTPS. Set `PORT` if your host needs a specific port, and `DATA_DIR` to keep data somewhere else.
 
+## GitHub
+
+Code lives at https://github.com/tahasanmahmud13/ansorion-store. Changes made with Claude Code are committed and pushed automatically at the end of each turn by `.claude/hooks/auto-push.ps1` (one folder above this repo). The `data/` folder is never pushed.
+
 ## Files
 
 ```
