@@ -43,8 +43,17 @@ if (!fs.existsSync(ADMIN_FILE)) {
 }
 function readAdmin() { return JSON.parse(fs.readFileSync(ADMIN_FILE, 'utf8')); }
 function checkPassword(username, password) {
+  if (typeof username !== 'string' || typeof password !== 'string') return false;
+  // On Vercel the password always comes from the ADMIN_PASSWORD environment variable.
+  if (ON_VERCEL) {
+    const want = process.env.ADMIN_PASSWORD;
+    if (!want || username !== 'admin') return false;
+    const a = crypto.createHash('sha256').update(password).digest();
+    const b = crypto.createHash('sha256').update(want).digest();
+    return crypto.timingSafeEqual(a, b);
+  }
   const a = readAdmin();
-  if (typeof username !== 'string' || typeof password !== 'string' || username !== a.username) return false;
+  if (username !== a.username) return false;
   const h = Buffer.from(hashPassword(password, a.salt), 'hex');
   return crypto.timingSafeEqual(h, Buffer.from(a.hash, 'hex'));
 }
@@ -293,6 +302,7 @@ route('POST', /^\/api\/admin\/login$/, async (req, m, url, res) => {
   const ip = ipOf(req); const f = loginFails.get(ip);
   if (f && f.until > Date.now()) throw new HttpError(429, 'Too many attempts. Try again in a few minutes.');
   const b = await readBody(req);
+  if (ON_VERCEL && !process.env.ADMIN_PASSWORD) throw new HttpError(503, 'Admin password is not set up yet. Add ADMIN_PASSWORD in Vercel > Settings > Environment Variables, then redeploy.');
   if (!checkPassword(b.username, b.password)) {
     const n = (f?.count || 0) + 1;
     loginFails.set(ip, { count: n, until: n >= 8 ? Date.now() + 10 * 60 * 1000 : 0 });
@@ -470,6 +480,7 @@ route('PUT', /^\/api\/admin\/settings$/, async (req) => {
   return { ok: true };
 }, A);
 route('POST', /^\/api\/admin\/password$/, async (req) => {
+  if (ON_VERCEL) throw new HttpError(409, 'On the live site, change the password in Vercel: Settings > Environment Variables > ADMIN_PASSWORD, then redeploy.');
   const b = await readBody(req);
   const a = readAdmin();
   if (!checkPassword(a.username, b.current)) throw new HttpError(401, 'Current password is wrong.');
