@@ -14,6 +14,23 @@ function fail(text, link) {
   m.innerHTML = `<p>${esc(text)}</p>${link || ''}`;
 }
 
+// The PDF maker can't draw an SVG that has no fixed size, so the logo is turned into a sharp PNG first.
+let LOGO = '/assets/logo.svg';
+async function prepareLogo() {
+  try {
+    let svg = await (await fetch('/assets/logo.svg', { cache: 'no-cache' })).text();
+    const vb = /viewBox="([\d.\s-]+)"/.exec(svg)[1].trim().split(/\s+/).map(Number);
+    const w = 900, h = Math.round(w * vb[3] / vb[2]); // 900 px wide: sharp at print size
+    svg = svg.replace('<svg ', `<svg width="${w}" height="${h}" `);
+    const img = new Image();
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    await img.decode();
+    const c = document.createElement('canvas'); c.width = w; c.height = h;
+    c.getContext('2d').drawImage(img, 0, 0, w, h);
+    LOGO = c.toDataURL('image/png');
+  } catch (e) { console.warn('Logo could not be prepared for the PDF:', e); }
+}
+
 function slip(o, store) {
   const items = o.items || [];
   const shown = items.length > MAX_ROWS ? items.slice(0, MAX_ROWS - 1) : items;
@@ -22,7 +39,7 @@ function slip(o, store) {
   const contact = [store.phone, store.email].filter(Boolean).map(esc).join(' · ');
   return `<section class="slip${items.length > 3 ? ' tight' : ''}">
     <div class="top">
-      <div class="brand"><img src="/assets/logo.svg" alt="ANSORION"><small>Essentials, aligned.<br>ansorion.vercel.app${contact ? '<br>' + contact : ''}</small></div>
+      <div class="brand"><img src="${LOGO}" alt="ANSORION" width="87" height="40"><small>Essentials, aligned.<br>ansorion.vercel.app${contact ? '<br>' + contact : ''}</small></div>
       <div class="inv"><h2>INVOICE</h2><div class="no">${esc(o.order_no)}</div><div class="dt">${date(o.created_at)}</div></div>
     </div>
     <div class="mid">
@@ -58,6 +75,7 @@ async function main() {
   const data = await res.json().catch(() => ({}));
   if (!res.ok) return fail(data.error || 'Could not load the orders.');
   const { orders, store } = data;
+  await prepareLogo();
   if (!orders.length) return fail('Those orders were not found. They may have been deleted.');
 
   const sheets = [];
