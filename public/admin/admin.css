@@ -129,7 +129,11 @@ table.t{width:100%;border-collapse:collapse;font-size:13.5px}
   .t td[data-l]::before{content:attr(data-l) " · ";color:var(--faint);font-size:12px}
   .t .r{text-align:left}
   .t .hide-m{display:none}
+  .t tr:has(td.ck){position:relative;padding-left:46px}
+  .t td.ck{position:absolute;left:12px;top:12px;width:auto}
 }
+.t .ck{width:44px;padding-right:0;cursor:default}
+.t .ck input{width:20px;height:20px;accent-color:var(--ink);cursor:pointer;margin:0}
 .empty{padding:40px 18px;text-align:center;color:var(--muted)}
 
 /* modal */

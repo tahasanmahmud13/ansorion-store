@@ -99,9 +99,11 @@ views.dashboard = async () => {
 
 /* ---------- orders ---------- */
 const oState = { status: '', q: '' };
+const picked = new Set();
+const openInvoices = (ids) => window.open('/admin/invoices?ids=' + ids.join(','), '_blank');
 views.orders = async () => {
   main.innerHTML = head('Orders', 'Every order from the store, newest first. Click an order to see full details and update its status.',
-    '<a class="b" id="csv" href="#">Export CSV</a>') + `
+    '<button class="b primary" id="invBtn" type="button" disabled>Invoices (PDF)</button><a class="b" id="csv" href="#">Export CSV</a>') + `
     <div class="tabs" id="otabs"></div>
     <div class="tools"><input class="in" id="oq" type="search" placeholder="Search order number, name, phone or city" value="${esc(oState.q)}"></div>
     <div class="card"><div class="tw" id="otable"><div class="empty">Loading…</div></div></div>`;
@@ -115,8 +117,9 @@ views.orders = async () => {
     const list = all.filter((o) => (!oState.status || o.status === oState.status) && (!q || [o.order_no, o.customer_name, o.phone, o.city].some((v) => String(v).toLowerCase().includes(q))));
     const p = new URLSearchParams(); if (oState.status) p.set('status', oState.status); if (oState.q) p.set('q', oState.q);
     $('#csv').href = '/api/admin/orders.csv?' + p;
-    $('#otable').innerHTML = list.length ? `<table class="t"><thead><tr><th>Order</th><th>Customer</th><th>Items</th><th class="r">Total</th><th>Payment</th><th>Status</th></tr></thead><tbody>
+    $('#otable').innerHTML = list.length ? `<table class="t"><thead><tr><th class="ck"><input type="checkbox" id="ckAll" aria-label="Select all orders in this list"></th><th>Order</th><th>Customer</th><th>Items</th><th class="r">Total</th><th>Payment</th><th>Status</th></tr></thead><tbody>
       ${list.map((o) => `<tr data-id="${o.id}">
+        <td class="ck"><input type="checkbox" data-pick="${o.id}" aria-label="Select ${esc(o.order_no)}" ${picked.has(o.id) ? 'checked' : ''}></td>
         <td><b>${esc(o.order_no)}</b><div class="muted small">${when(o.created_at)}</div></td>
         <td data-l="Customer"><b>${esc(o.customer_name)}</b><div class="muted small">${esc(o.phone)} · ${esc(o.city)}</div></td>
         <td class="hide-m"><span class="sumtxt">${esc(o.summary)}</span><div class="muted small">${o.item_count} pcs</div></td>
@@ -124,10 +127,25 @@ views.orders = async () => {
         <td class="hide-m">${esc(o.payment_method)}${o.payment_ref ? `<div class="muted small">${esc(o.payment_ref)}</div>` : ''}</td>
         <td><span class="${stc(o.status)}">${esc(o.status)}</span></td></tr>`).join('')}
       </tbody></table>` : `<div class="empty">${all.length ? 'No orders match this filter.' : 'No orders yet. When a customer checks out, the order appears here with all their details.'}</div>`;
+    syncPick(list);
   };
+  const syncPick = (list) => {
+    const b = $('#invBtn'); b.disabled = !picked.size;
+    b.textContent = picked.size ? `Invoices (PDF) · ${picked.size}` : 'Invoices (PDF)';
+    const ck = $('#ckAll'); if (ck) { const n = list.filter((o) => picked.has(o.id)).length; ck.checked = n > 0 && n === list.length; ck.indeterminate = n > 0 && n < list.length; }
+  };
+  $('#otable').addEventListener('change', (e) => {
+    const boxes = [...$$('[data-pick]', $('#otable'))];
+    if (e.target.id === 'ckAll') boxes.forEach((x) => { x.checked = e.target.checked; const id = Number(x.dataset.pick); x.checked ? picked.add(id) : picked.delete(id); });
+    else if (e.target.dataset.pick) { const id = Number(e.target.dataset.pick); e.target.checked ? picked.add(id) : picked.delete(id); }
+    const cur = boxes.map((x) => Number(x.dataset.pick));
+    syncPick(all.filter((o) => cur.includes(o.id)));
+  });
+  // Newest order first in the PDF, same as the list.
+  $('#invBtn').addEventListener('click', () => openInvoices(all.filter((o) => picked.has(o.id)).map((o) => o.id)));
   tabs.addEventListener('click', (e) => { const t = e.target.closest('.tab'); if (t) { oState.status = t.dataset.s; draw(); } });
   let qt; $('#oq').addEventListener('input', (e) => { clearTimeout(qt); qt = setTimeout(() => { oState.q = e.target.value.trim(); draw(); }, 200); });
-  $('#otable').addEventListener('click', (e) => { const tr = e.target.closest('tr[data-id]'); if (tr) openOrder(Number(tr.dataset.id)); });
+  $('#otable').addEventListener('click', (e) => { const tr = e.target.closest('tr[data-id]'); if (tr && !e.target.closest('.ck')) openOrder(Number(tr.dataset.id)); });
   draw();
 };
 
@@ -167,8 +185,9 @@ async function openOrder(id) {
       <label class="fld"><span>Private note <small>(only admins see this)</small></span><textarea class="in" name="admin_note" placeholder="e.g. Called at 3pm, confirmed. Courier: Pathao #12345">${esc(o.admin_note)}</textarea></label>
       <p class="muted small">Setting an order to Cancelled puts its items back in stock.</p>
       <div class="actions"><button class="b primary" type="submit">Save changes</button><button class="b danger" type="button" id="odel">Delete order</button></div>
-    </form>`, '<button class="b sm" id="oprint">Print</button>');
+    </form>`, '<button class="b sm primary" id="oinv">Invoice (PDF)</button><button class="b sm" id="oprint">Print</button>');
   $('#oprint', m.el).addEventListener('click', () => window.print());
+  $('#oinv', m.el).addEventListener('click', () => openInvoices([id]));
   $('#ostat', m.el).addEventListener('submit', async (e) => {
     e.preventDefault();
     const f = new FormData(e.target);

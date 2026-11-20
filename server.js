@@ -24,8 +24,15 @@ const PORT = Number(process.env.PORT) || 3000;
 fs.mkdirSync(DATA, { recursive: true });
 if (ON_VERCEL && !HAS_SHARED_DB) console.warn('DATABASE_URL is not set: orders and logins are kept in temporary storage and will be lost.');
 let db;
-const ready = openDatabase(DATA).then((d) => { db = d; });
-ready.catch((e) => console.error('Could not open the database:', e));
+// Opens the database once. If that fails (for example the free database is waking up), the next request tries again
+// instead of this server copy staying broken.
+let opening = null;
+function ready() {
+  if (db) return Promise.resolve();
+  opening ||= openDatabase(DATA).then((d) => { db = d; }).catch((e) => { opening = null; console.error('Could not open the database:', e.message); throw e; });
+  return opening;
+}
+ready().catch(() => {});
 
 /* ---------------- passwords ---------------- */
 function hashPassword(pw, salt) { return crypto.scryptSync(pw, salt, 64).toString('hex'); }
@@ -494,6 +501,19 @@ route('GET', /^\/api\/admin\/orders\/(\d+)$/, async (req, m) => {
   o.has_account = !!o.customer_id;
   return o;
 }, A);
+// Full orders with items for printing invoices, in the order the ids were given.
+route('GET', /^\/api\/admin\/invoices$/, async (req, m, url) => {
+  const ids = [...new Set(String(url.searchParams.get('ids') || '').split(',').map(Number).filter((n) => Number.isInteger(n) && n > 0))].slice(0, 300);
+  if (!ids.length) throw new HttpError(422, 'Choose at least one order.');
+  const rows = await db.all(`SELECT * FROM orders WHERE id IN (${ids.map(() => '?').join(',')})`, ids);
+  await attachItems(rows);
+  const byId = new Map(rows.map((o) => [o.id, o]));
+  const s = await getSettings();
+  return {
+    store: { phone: s.contact_phone, email: s.contact_email, whatsapp: s.whatsapp, facebook: s.facebook_url },
+    orders: ids.map((id) => byId.get(id)).filter(Boolean),
+  };
+}, A);
 route('PATCH', /^\/api\/admin\/orders\/(\d+)$/, async (req, m) => {
   const b = await readBody(req);
   const o = await db.get('SELECT * FROM orders WHERE id = ?', [int(m[1])]);
@@ -654,7 +674,9 @@ async function serveStatic(req, res, pathname) {
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, 'http://localhost');
   try {
-    if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/uploads/')) await ready;
+    if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/uploads/')) {
+      try { await ready(); } catch { await new Promise((r) => setTimeout(r, 800)); await ready(); }
+    }
     if (url.pathname.startsWith('/api/')) {
       const r = routes.find((x) => x.method === req.method && x.pattern.test(url.pathname));
       if (!r) throw new HttpError(404, 'Not found.');

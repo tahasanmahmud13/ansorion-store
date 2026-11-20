@@ -13,7 +13,14 @@ const store = {
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
 };
 async function api(path, opts = {}) {
-  const res = await fetch(path, { ...opts, headers: { 'Content-Type': 'application/json', ...(opts.headers || {}) } });
+  const go = () => fetch(path, { ...opts, headers: { 'Content-Type': 'application/json', ...(opts.headers || {}) } });
+  const safe = !opts.method || opts.method === 'GET';
+  let res;
+  // Reading data is retried twice after a network blip or a server hiccup; sending (like placing an order) is not.
+  for (let i = 0; ; i++) {
+    try { res = await go(); if (!safe || res.status < 500 || i >= 2) break; } catch (e) { if (!safe || i >= 2) throw new Error('Could not reach the store. Check your connection and try again.'); }
+    await new Promise((r) => setTimeout(r, 700 * (i + 1)));
+  }
   const data = await res.json().catch(() => ({}));
   if (!res.ok) { const e = new Error(data.error || 'Something went wrong. Please try again.'); e.errors = data.errors; throw e; }
   return data;
