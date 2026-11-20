@@ -692,8 +692,10 @@ const server = http.createServer(async (req, res) => {
     await serveStatic(req, res, url.pathname);
   } catch (e) {
     const status = e.status || 500;
-    if (status === 500) console.error(e);
-    if (!res.headersSent) send(res, status, { error: status === 500 ? 'Something went wrong on our side. Please try again.' : e.message, errors: e.errors });
+    if (status === 500) console.error(req.method, url.pathname, e);
+    // A short code (like ECONNRESET) helps find the cause later without exposing details.
+    const code = status === 500 && /^[A-Z0-9_]{2,24}$/.test(String(e.code || '')) ? e.code : undefined;
+    if (!res.headersSent) send(res, status, { error: status === 500 ? 'Something went wrong on our side. Please try again.' : e.message, errors: e.errors, code });
   }
 });
 
