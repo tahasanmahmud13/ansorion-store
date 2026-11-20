@@ -53,6 +53,7 @@ Mobile has a bottom bar (Home, Shop, Cart, Account, Info); a WhatsApp button app
 3. Open an order to see name, phone, address, items, payment and transaction ID. Change the status (Confirmed → Shipped → Delivered) and add private notes. Cancelling returns the items to stock.
 4. Customers see the status in **My account**, or on the Info desk with their order number and phone.
 5. **Export CSV** downloads the order list for Excel.
+6. **Invoices (PDF):** tick orders in Admin → Orders and click **Invoices (PDF)**, or open one order and click **Invoice (PDF)**. Invoices are laid out three per A4 page with cut lines (one slip goes in each parcel). **Download PDF** saves the file; **Print** prints directly. Orders with more than 4 different items show the first 3 and a "+N more items" line so each invoice fits its third of the page.
 
 ## Before going live
 
